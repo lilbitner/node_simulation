@@ -86,5 +86,9 @@ router.get('/authenticate', async (request, response) => {
     // request.user = user 
 })
 
+router.get('/pathname', async (request, response) => {
+    response.json({pathname: process.cwd()})
+})
+
 
 module.exports = router 
