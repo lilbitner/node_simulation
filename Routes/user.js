@@ -60,6 +60,23 @@ router.post('/login', async (request, response) => {
        {token, foundUser} );
 })
 
+pathname = () => {
+    const path = process.cwd()
+    return path 
+}
+
+datetime = () => {
+    let ts = Date.now()
+    let date_ob = new Date(ts);
+    let date = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+    let hours = date_ob.getHours();
+    let minutes = date_ob.getMinutes();
+    let seconds = date_ob.getSeconds();
+    return (hours + ":" + minutes + ":" + seconds + " " + month + "-" + date + "-" + year)
+}
+
 router.get('/authenticate', async (request, response) => {
     
     const token = request.headers.authorization.split(" ")[1]
@@ -80,16 +97,11 @@ router.get('/authenticate', async (request, response) => {
         .where("id", id)
         .first()
     
-    pathname = () => {
-        const path = process.cwd()
-        const array = path.split('/')
-        array.splice(6,1, 'talagent')
-        return array.join('/')
-    }
-   
+    let timestamp = datetime()
+    
     let path = pathname()
    
-    response.json({user, path})
+    response.json({user, path, timestamp})
 })
 
 module.exports = router 
