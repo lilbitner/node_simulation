@@ -26,19 +26,20 @@ router.post("/", async (request, response) => {
         })
     })
 
-
     if(foundUser) {
         response.status(401).json({status: 401})
     }
 })
 
 router.post('/login', async (request, response) => {
+    
     const { username, password } = request.body
    
     const foundUser = await database('user')
         .select()
         .where('username', username)
         .first()
+
     if (!foundUser) {
         response.status(401).json({status: 401})
     }
@@ -51,19 +52,16 @@ router.post('/login', async (request, response) => {
 
 
    const token =  jwt.sign({
-    id: foundUser.id,
-    username: foundUser.username
+        id: foundUser.id,
+        username: foundUser.username
    }, process.env.SECRET)
 
-    
-   
    response.status(200).json(
        {token, foundUser} );
-  
-
 })
 
 router.get('/authenticate', async (request, response) => {
+    
     const token = request.headers.authorization.split(" ")[1]
 
     if(!token) {
@@ -81,14 +79,17 @@ router.get('/authenticate', async (request, response) => {
         .select()
         .where("id", id)
         .first()
-    console.log(user)
-    response.json({user})
-    // request.user = user 
+    
+    pathname = () => {
+        const path = process.cwd()
+        const array = path.split('/')
+        array.splice(6,1, 'talagent')
+        return array.join('/')
+    }
+   
+    let path = pathname()
+   
+    response.json({user, path})
 })
-
-router.get('/pathname', async (request, response) => {
-    response.json({pathname: process.cwd()})
-})
-
 
 module.exports = router 
