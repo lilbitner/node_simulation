@@ -7,8 +7,6 @@ module.exports = {
     connection: 'postgresql://localhost/RiskManagement'
   },
 
-
-
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL

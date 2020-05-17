@@ -50,7 +50,6 @@ router.post('/login', async (request, response) => {
         response.status(401).json({status: 401})
     }
 
-
    const token =  jwt.sign({
         id: foundUser.id,
         username: foundUser.username
